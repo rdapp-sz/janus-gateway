@@ -282,7 +282,6 @@ static const char *janus_websockets_reason_string(enum lws_callback_reasons reas
 		CASE_STR(LWS_CALLBACK_CHANGE_MODE_POLL_FD);
 		CASE_STR(LWS_CALLBACK_LOCK_POLL);
 		CASE_STR(LWS_CALLBACK_UNLOCK_POLL);
-		CASE_STR(LWS_CALLBACK_OPENSSL_CONTEXT_REQUIRES_PRIVATE_KEY);
 		CASE_STR(LWS_CALLBACK_USER);
 		CASE_STR(LWS_CALLBACK_RECEIVE_PONG);
 		default:
@@ -412,7 +411,7 @@ static struct lws_vhost* janus_websockets_create_ws_server(
 	if(item && item->value) {
 		ip = (char *)item->value;
 		struct in_addr addr;
-		if(inet_net_pton(AF_INET, ip, &addr, sizeof(addr)) > 0)
+		if(inet_pton(AF_INET, ip, &addr) == 1)
 			ipv4_only = 1;
 		char *iface = janus_websockets_get_interface_name(ip);
 		if(iface == NULL) {
